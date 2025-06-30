@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misbah ul Haque - Android Developer Portfolio</title>
+    
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="android-loader">
+                <div class="android-head"></div>
+                <div class="android-body"></div>
+                <div class="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <p>Loading Android Experience...</p>
+        </div>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav id="navbar">
+        <ul>
+            <li data-section="home" class="active">Home</li>
+            <li data-section="resume">Resume</li>
+            <li data-section="projects">Projects</li>
+            <li data-section="contact">Contact</li>
+        </ul>
+        <button class="download-btn" id="downloadResume" title="Download Resume as PDF">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Resume</span>
+        </button>
+    </nav>
+
+    <!-- 3D Background Interaction Control -->
+    <div class="scene-control" id="sceneControl" title="Click to interact with 3D background">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7V17L12 22L22 17V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 12L22 7" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 12V22" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M12 12L2 7" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+        </svg>
+        <span class="control-hint">Explore 3D Scene</span>
+    </div>
+
+    <!-- Three.js Canvas -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Home Section - Minimal Interactive Landing -->
+    <section id="home" class="section landing-section">
+        <div class="minimal-intro">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-original.svg" 
+                 alt="Android Logo" 
+                 class="android-logo-main">
+            <h1 class="glitch-text" data-text="Misbah ul Haque">Misbah ul Haque</h1>
+            <p class="typed-text">Experienced Android Developer</p>
+            <p class="intro-subtitle">Innovative Android Developer with 2+ years of experience in creating user-centric mobile and Android TV applications. Proficient in Kotlin and Jetpack Compose, delivering high-quality solutions that elevate user engagement.</p>
+            <div class="social-links">
+                <a href="https://github.com/Misbah542" target="_blank" rel="noopener" class="social-link">
+                    <span>GitHub</span>
+                </a>
+                <a href="https://linkedin.com/in/Misbah542" target="_blank" rel="noopener" class="social-link">
+                    <span>LinkedIn</span>
+                </a>
+                <a href="mailto:misbahul8@gmail.com" class="social-link">
+                    <span>Email</span>
+                </a>
+            </div>
+        </div>
+            <div class="scroll-indicator">
+                <span>Scroll to explore</span>
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+            </div>
+    </section>
+
+    <!-- Resume Section -->
+    <section id="resume" class="section">
+        <div class="content" data-section="resume">
+            <h2>Professional Journey</h2>
+            
+            <div class="resume-content" id="resumeContent">
+                <h3>Experience</h3>
+                <div class="experience-item">
+                    <h4>Software Development Engineer II - Android</h4>
+                    <p class="experience-date">Viacom Media (JioCinema) • June 2024 - Present</p>
+                    <ul>
+                        <li>Optimised app startup time by 60% leveraging Content Provider and Android Startup Library</li>
+                        <li>Implemented Contextual Continue Watching, reducing API response times by 6 seconds</li>
+                        <li>Maintained 99.9% crash-free rate during high-concurrency events with 50M+ users</li>
+                        <li>Upgraded analytics and impression tracking for better performance insights</li>
+                    </ul>
+                </div>
+
+                <div class="experience-item">
+                    <h4>Software Development Engineer I - Android</h4>
+                    <p class="experience-date">Viacom Media (JioCinema) • July 2022 - May 2024</p>
+                    <ul>
+                        <li>Led Android TV Player Skin redesign achieving 40% reduction in rendering time</li>
+                        <li>Built Login with QR Code functionality using MVVM architecture</li>
+                        <li>Maintained 99.6% crash-free rate during FIFA World Cup 2022 and IPL 2023</li>
+                        <li>Played critical role in optimizing app performance for high-traffic events</li>
+                    </ul>
+                </div>
+
+                <h3>Technical Skills</h3>
+                <div class="skill-grid">
+                    <div class="skill-item">
+                        <h4>Languages</h4>
+                        <p>Kotlin, Java, XML</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Frameworks</h4>
+                        <p>Jetpack Compose, Android Leanback, ExoPlayer</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Architecture</h4>
+                        <p>MVVM, MVI, Clean Architecture, DI</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Tools</h4>
+                        <p>Android Studio, Firebase, Git</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Libraries</h4>
+                        <p>Retrofit, Room, Dagger/Hilt, Coroutines</p>
+                    </div>
+                    <div class="skill-item">
+                        <h4>Testing</h4>
+                        <p>JUnit, Espresso, MockK, Robolectric</p>
+                    </div>
+                </div>
+
+                <h3>Education</h3>
+                <div class="education-item">
+                    <h4>BTech in Electronics and Communication</h4>
+                    <p class="education-details">PES University (RR Campus) • 2018 - 2022</p>
+                    <p>Minors in Computer Science</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="content" data-section="projects">
+            <h2>Featured Projects</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-icon">📺</div>
+                    <h3>JioCinema Player Skin</h3>
+                    <p>Complete Android TV player interface redesign with 40% faster rendering, custom controls, and seamless playback for millions of users.</p>
+                    <div class="tech-stack">
+                        <span>Kotlin</span>
+                        <span>Android TV</span>
+                        <span>ExoPlayer</span>
+                        <span>Custom Views</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">🔐</div>
+                    <h3>QR Code Login System</h3>
+                    <p>Secure authentication system allowing users to login via QR code scan, with custom OTP views and MVVM architecture.</p>
+                    <div class="tech-stack">
+                        <span>MVVM</span>
+                        <span>Security</span>
+                        <span>Kotlin</span>
+                        <span>Custom Views</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">🎮</div>
+                    <h3>Tetris Game</h3>
+                    <p>Fully functional Tetris game using Jetpack Compose with real-time game mechanics, collision detection, and scoring system.</p>
+                    <div class="tech-stack">
+                        <span>Compose</span>
+                        <span>Coroutines</span>
+                        <span>MVVM</span>
+                        <span>LiveData</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-icon">🌤️</div>
+                    <h3>Weather App</h3>
+                    <p>Dynamic weather application with custom calculator, real-time data from OpenWeather API, and theme changes based on conditions.</p>
+                    <div class="tech-stack">
+                        <span>Retrofit</span>
+                        <span>API</span>
+                        <span>Compose</span>
+                        <span>MVVM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="content" data-section="contact">
+            <h2>Let's Build Something Amazing</h2>
+            <p class="contact-intro">Ready to create the next big Android experience together!</p>
+            <div class="contact-grid">
+                <a href="mailto:misbahul8@gmail.com" class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <h3>Email</h3>
+                    <p>misbahul8@gmail.com</p>
+                </a>
+                <a href="tel:+918376069521" class="contact-item">
+                    <span class="contact-icon">📱</span>
+                    <h3>Phone</h3>
+                    <p>+91-8376069521</p>
+                </a>
+                <a href="https://linkedin.com/in/Misbah542" target="_blank" class="contact-item">
+                    <span class="contact-icon">🔗</span>
+                    <h3>LinkedIn</h3>
+                    <p>linkedin.com/in/Misbah542</p>
+                </a>
+                <a href="https://github.com/Misbah542" target="_blank" class="contact-item">
+                    <span class="contact-icon">💻</span>
+                    <h3>GitHub</h3>
+                    <p>github.com/Misbah542</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Scripts -->
+    <script src="three-scene.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

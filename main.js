@@ -235,7 +235,7 @@ function initializePortfolio() {
             setTimeout(() => {
                 terminalQuote.textContent = quotes[quoteIndex];
             }, 250);
-        }, 1500);
+        }, 3000);
     }
 
     /**

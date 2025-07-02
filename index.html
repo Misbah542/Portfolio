@@ -87,7 +87,24 @@
                 </div>
             </div>
             <div class="terminal-nav">
-                <a href="#home" class="terminal-link">[ENTER]</a>
+                <a href="#home" class="terminal-link" id="enterLink">[ENTER]</a>
+                <button class="play-game-btn" id="playGameBtn">PRESS PLAY</button>
+            </div>
+            <div class="terminal-game" id="terminalGame">
+                <canvas id="gameCanvas"></canvas>
+                <div class="game-ui">
+                    <div class="score">Score: <span id="gameScore">0</span></div>
+                    <div class="high-score">High: <span id="highScore">0</span></div>
+                </div>
+                <div class="game-over" id="gameOver">
+                    <h3>GAME OVER</h3>
+                    <p>Score: <span id="finalScore">0</span></p>
+                    <button class="retry-btn" id="retryBtn">RETRY</button>
+                </div>
+                <div class="game-instructions">
+                    <span class="desktop-controls">Press ESC to exit • ↑ Jump • ↓ Duck</span>
+                    <span class="mobile-controls">Tap top to jump • Tap bottom to duck</span>
+                </div>
             </div>
         </div>
         <div class="scroll-indicator terminal-scroll">
@@ -172,6 +189,7 @@
 
     <!-- Custom Scripts -->
     <script src="three-scene.js"></script>
+    <script src="gradle-runner-game.js"></script>
     <script src="main.js"></script>
     <script>
         // Ensure portfolio data is available globally if needed

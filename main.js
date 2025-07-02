@@ -43,6 +43,18 @@ function initializePortfolio() {
     const canvas = document.getElementById('canvas');
     const terminalQuote = document.getElementById('terminalQuote');
 
+    // Terminal Game Elements
+    const playGameBtn = document.getElementById('playGameBtn');
+    const enterLink = document.getElementById('enterLink');
+    const terminalGame = document.getElementById('terminalGame');
+    const gameCanvas = document.getElementById('gameCanvas');
+    const gameScoreEl = document.getElementById('gameScore');
+    const highScoreEl = document.getElementById('highScore');
+    const gameOverEl = document.getElementById('gameOver');
+    const finalScoreEl = document.getElementById('finalScore');
+    const retryBtn = document.getElementById('retryBtn');
+    const terminalSection = document.querySelector('.terminal-section');
+
     // State variables
     let isSceneInteractive = false;
     let lastScrollY = window.scrollY;
@@ -61,6 +73,12 @@ function initializePortfolio() {
             observeSections();
             startQuoteRotation();
             updateSceneControlState();
+            
+            // Initialize high score display
+            const savedHighScore = localStorage.getItem('gradleRunnerHighScore') || '0';
+            if (highScoreEl) {
+                highScoreEl.textContent = savedHighScore;
+            }
         }, 1500);
 
         // Set up event listeners
@@ -235,7 +253,7 @@ function initializePortfolio() {
             setTimeout(() => {
                 terminalQuote.textContent = quotes[quoteIndex];
             }, 250);
-        }, 3000);
+        }, 1500);
     }
 
     /**
@@ -303,6 +321,57 @@ function initializePortfolio() {
                 e.preventDefault();
             }
         }, { passive: false });
+
+        // Terminal Game event listeners
+        if (playGameBtn) {
+            playGameBtn.addEventListener('click', startGame);
+        }
+
+        if (retryBtn) {
+            retryBtn.addEventListener('click', () => {
+                gameOverEl.classList.remove('active');
+                startGame();
+            });
+        }
+
+        // ESC key to exit game
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && game && game.isRunning) {
+                stopGame();
+            }
+        });
+    }
+
+    /**
+     * Terminal Gradle Runner Game Management
+     */
+    let game = null;
+
+    function startGame() {
+        // Hide enter button and show game
+        enterLink.style.display = 'none';
+        playGameBtn.style.display = 'none';
+        terminalGame.classList.add('active');
+        terminalSection.classList.add('game-active');
+        
+        // Initialize and start game
+        if (!game) {
+            game = new GradleRunnerGame(gameCanvas);
+        }
+        game.start();
+    }
+
+    function stopGame() {
+        if (game) {
+            game.stop();
+        }
+        
+        // Show buttons and hide game
+        enterLink.style.display = 'inline-block';
+        playGameBtn.style.display = 'inline-block';
+        terminalGame.classList.remove('active');
+        terminalSection.classList.remove('game-active');
+        gameOverEl.classList.remove('active');
     }
 
     /**

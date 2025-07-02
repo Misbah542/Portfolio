@@ -1,0 +1,98 @@
+{
+  "personalInfo": {
+    "name": "Misbah ul Haque",
+    "title": "Experienced Android Developer",
+    "subtitle": "Innovative Android Developer with 2+ years of experience in creating user-centric mobile and Android TV applications. Proficient in Kotlin and Jetpack Compose, delivering high-quality solutions that elevate user engagement.",
+    "email": "misbahul8@gmail.com",
+    "phone": "+91-8376069521",
+    "linkedin": "https://linkedin.com/in/Misbah542",
+    "github": "https://github.com/Misbah542",
+    "resumePdfUrl": "/resume/Misbah_ul_Haque_Resume.pdf"
+  },
+  "terminalQuotes": [
+    "// TODO: Fix this bug... eventually 😅",
+    "git commit -m \"Fixed the bug that fixed the bug\"",
+    "// This code works, don't touch it!",
+    "if (coffee.isEmpty()) { developer.crash() }",
+    "// Here be dragons 🐉",
+    "try { coffee() } catch (EmptyCupException e) { refill() }",
+    "// I don't know why this works, but it does",
+    "Android Studio: \"Indexing...\" Me: \"Still?!\"",
+    "gradle.build.failed.retry(∞)",
+    "// Temporary fix, will refactor later (3 years ago)",
+    "findViewById() is dead. Long live ViewBinding!",
+    "Jetpack Compose > XML (fight me)",
+    "// Stack Overflow saved my life again",
+    "when (mood) { HAPPY -> code() SAD -> debug() }",
+    "Kotlin Coroutines: Making async look easy since 2017",
+    "// If you're reading this, you're probably debugging",
+    "Android: 14 API levels, 14 different behaviors",
+    "ProGuard rules: The real final boss",
+    "// Works on my device ¯\\_(ツ)_/¯",
+    "git push --force // YOLO"
+  ],
+  "experience": [
+    {
+      "title": "Software Development Engineer II - Android",
+      "company": "Viacom Media (JioCinema)",
+      "period": "June 2024 - Present",
+      "achievements": [
+        "Optimised app startup time by 60% leveraging Content Provider and Android Startup Library",
+        "Implemented Contextual Continue Watching, reducing API response times by 6 seconds",
+        "Maintained 99.9% crash-free rate during high-concurrency events with 50M+ users",
+        "Upgraded analytics and impression tracking for better performance insights"
+      ]
+    },
+    {
+      "title": "Software Development Engineer I - Android",
+      "company": "Viacom Media (JioCinema)",
+      "period": "July 2022 - May 2024",
+      "achievements": [
+        "Led Android TV Player Skin redesign achieving 40% reduction in rendering time",
+        "Built Login with QR Code functionality using MVVM architecture",
+        "Maintained 99.6% crash-free rate during FIFA World Cup 2022 and IPL 2023",
+        "Played critical role in optimizing app performance for high-traffic events"
+      ]
+    }
+  ],
+  "skills": {
+    "languages": ["Kotlin", "Java", "XML"],
+    "frameworks": ["Jetpack Compose", "Android Leanback", "ExoPlayer"],
+    "architecture": ["MVVM", "MVI", "Clean Architecture", "DI"],
+    "tools": ["Android Studio", "Firebase", "Git"],
+    "libraries": ["Retrofit", "Room", "Dagger/Hilt", "Coroutines"],
+    "testing": ["JUnit", "Espresso", "MockK", "Robolectric"]
+  },
+  "education": {
+    "degree": "BTech in Electronics and Communication",
+    "institution": "PES University (RR Campus)",
+    "period": "2018 - 2022",
+    "additional": "Minors in Computer Science"
+  },
+  "projects": [
+    {
+      "title": "JioCinema Player Skin",
+      "icon": "📺",
+      "description": "Complete Android TV player interface redesign with 40% faster rendering, custom controls, and seamless playback for millions of users.",
+      "techStack": ["Kotlin", "Android TV", "ExoPlayer", "Custom Views"]
+    },
+    {
+      "title": "QR Code Login System",
+      "icon": "🔐",
+      "description": "Secure authentication system allowing users to login via QR code scan, with custom OTP views and MVVM architecture.",
+      "techStack": ["MVVM", "Security", "Kotlin", "Custom Views"]
+    },
+    {
+      "title": "Tetris Game",
+      "icon": "🎮",
+      "description": "Fully functional Tetris game using Jetpack Compose with real-time game mechanics, collision detection, and scoring system.",
+      "techStack": ["Compose", "Coroutines", "MVVM", "LiveData"]
+    },
+    {
+      "title": "Weather App",
+      "icon": "🌤️",
+      "description": "Dynamic weather application with custom calculator, real-time data from OpenWeather API, and theme changes based on conditions.",
+      "techStack": ["Retrofit", "API", "Compose", "MVVM"]
+    }
+  ]
+}

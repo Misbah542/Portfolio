@@ -5,7 +5,7 @@
     "subtitle": "Innovative Android Developer with 2+ years of experience in creating user-centric mobile and Android TV applications. Proficient in Kotlin and Jetpack Compose, delivering high-quality solutions that elevate user engagement.",
     "email": "misbahul8@gmail.com",
     "phone": "+91-8376069521",
-    "linkedin": "https://linkedin.com/in/misbahhaque",
+    "linkedin": "http://www.linkedin.com/in/misbahhaque",
     "github": "https://github.com/Misbah542",
     "resumePdfUrl": "/resume/Misbah_ul_Haque_Resume.pdf"
   },
@@ -62,30 +62,41 @@
       "company": "Viacom Media (JioCinema)",
       "period": "June 2024 - Present",
       "achievements": [
-        "Optimised app startup time by 60% leveraging Content Provider and Android Startup Library",
-        "Implemented Contextual Continue Watching, reducing API response times by 6 seconds",
-        "Maintained 99.9% crash-free rate during high-concurrency events with 50M+ users",
-        "Upgraded analytics and impression tracking for better performance insights"
+        "Optimised app startup time reducing it by 60% using Content Provider and Android Startup Library.",
+        "Implemented Contextual Continue Watching, improved pagination and caching, reducing API response time by 6 seconds.",
+        "Optimized UpNext playback feature, resulting in 25% boost in user engagement.",
+        "Upgraded analytics and impression tracking for better insights.",
+        "Maintained 99.9% crash-free rate during IPL 2024, Olympics, ISL, and Indian Cricket Cups with peak concurrency of 50M+ users."
       ]
     },
     {
       "title": "Software Development Engineer I - Android",
       "company": "Viacom Media (JioCinema)",
-      "period": "July 2022 - May 2024",
+      "period": "July 2022 – May 2024",
       "achievements": [
-        "Led Android TV Player Skin redesign achieving 40% reduction in rendering time",
-        "Built Login with QR Code functionality using MVVM architecture",
-        "Maintained 99.6% crash-free rate during FIFA World Cup 2022 and IPL 2023",
-        "Played critical role in optimizing app performance for high-traffic events"
+        "Redesigned Android TV Player Skin, improving rendering time by 40%.",
+        "Built Login with QR Code using MVVM and custom OTP view.",
+        "Addressed critical live issues and improved app performance during FIFA 2022, IPL 2023, and cricket series.",
+        "Achieved 99.6% crash-free user rate during high traffic events."
       ]
     }
   ],
   "skills": {
-    "languages": ["Kotlin", "Java", "XML"],
-    "frameworks": ["Jetpack Compose", "Android Leanback", "ExoPlayer"],
-    "architecture": ["MVVM", "MVI", "Clean Architecture", "DI"],
-    "tools": ["Android Studio", "Firebase", "Git"],
-    "libraries": ["Retrofit", "Room", "Dagger/Hilt", "Coroutines"],
+    "languages": ["Kotlin", "Java"],
+    "frameworks": [
+      "Jetpack Compose",
+      "Android Leanback",
+      "ExoPlayer",
+      "Dagger Hilt",
+      "Paging 3"
+    ],
+    "architecture": ["MVVM", "MVI", "MVP", "MVC", "Clean Architecture", "Dependency Injection"],
+    "tools": ["Android Studio", "Firebase"],
+    "libraries": ["Retrofit", "Room", "SQLite", "GraphQL"],
+    "performance": ["Android Studio Profiler", "Memory Analyzer"],
+    "analytics": ["Firebase Analytics", "Crashlytics", "Mux", "Mixpanel", "Sentry"],
+    "platforms": ["Android Mobile", "Android TV", "Google TV", "FireStick"],
+    "versionControl": ["Git", "GitLab", "GitHub", "Bitbucket", "Azure"],
     "testing": ["JUnit", "Espresso", "MockK", "Robolectric"]
   },
   "education": {
@@ -95,19 +106,19 @@
     "additional": "Minors in Computer Science"
   },
   "projects": [
-   {
+    {
       "id": "proj1",
       "name": "Tetris Game",
       "icon": "🎮",
-      "description": "Fully functional Tetris game using Jetpack Compose with real-time game mechanics, collision detection, and scoring system.",
-      "technologies": ["Compose", "Coroutines", "MVVM", "LiveData"]
+      "description": "Tetris game developed using MVVM and Jetpack Compose with real-time mechanics like piece movement, collision detection, and scoring.",
+      "technologies": ["Kotlin", "Jetpack Compose", "LiveData", "Coroutines", "MVVM"]
     },
     {
       "id": "proj2",
-      "name": "Weather App",
+      "name": "Weather App & Custom Calculator",
       "icon": "🌤️",
-      "description": "Dynamic weather application with custom calculator, real-time data from OpenWeather API, and theme changes based on conditions.",
-      "technologies": ["Retrofit", "API", "Compose", "MVVM"]
+      "description": "Weather app using OpenWeather API and Jetpack Compose, featuring a responsive UI that dynamically changes based on weather conditions. Includes a custom-built calculator.",
+      "technologies": ["Jetpack Compose", "Retrofit", "MVVM", "LiveData"]
     }
   ]
 }

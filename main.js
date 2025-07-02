@@ -131,7 +131,12 @@ function initializePortfolio() {
             { title: 'Architecture', key: 'architecture' },
             { title: 'Tools', key: 'tools' },
             { title: 'Libraries', key: 'libraries' },
+            { title: 'Performance', key: 'performance' },
+            { title: 'Analytics', key: 'analytics' },
+            { title: 'Platforms', key: 'platforms' },
+            { title: 'Version Control', key: 'versionControl' },
             { title: 'Testing', key: 'testing' }
+            
         ];
         
         skillsContainer.innerHTML = skillCategories.map(cat => `

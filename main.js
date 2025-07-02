@@ -84,6 +84,118 @@ function initializePortfolio() {
             }
         });
 
+        const nameEl = document.getElementById('developerName');
+        const titleEl = document.getElementById('developerTitle');
+        const bioEl = document.getElementById('developerBio');
+        const socialLinksEl = document.getElementById('socialLinks');
+    
+        if (nameEl) nameEl.textContent = portfolioData.personalInfo.name;
+        if (titleEl) titleEl.textContent = portfolioData.personalInfo.title;
+        if (bioEl) bioEl.textContent = portfolioData.personalInfo.bio;
+    
+        // Populate social links
+        if (socialLinksEl) {
+            socialLinksEl.innerHTML = `
+                <a href="${portfolioData.personalInfo.github}" target="_blank" rel="noopener" class="social-link">
+                    <span>GitHub</span>
+                </a>
+                <a href="${portfolioData.personalInfo.linkedin}" target="_blank" rel="noopener" class="social-link">
+                    <span>LinkedIn</span>
+                </a>    
+                <a href="mailto:${portfolioData.personalInfo.email}" class="social-link">
+                    <span>Email</span>
+                </a>
+        `   ;
+        }
+    
+    // Populate experience
+    const expContainer = document.getElementById('experienceContainer');
+    if (expContainer && portfolioData.experience) {
+        expContainer.innerHTML = portfolioData.experience.map(exp => `
+            <div class="experience-item">
+                <h4>${exp.title}</h4>
+                <p class="experience-date">${exp.company} • ${exp.period}</p>
+                <ul>
+                    ${exp.achievements.map(achievement => `<li>${achievement}</li>`).join('')}
+                </ul>
+            </div>
+        `).join('');
+    }
+    
+    // Populate skills
+    const skillsContainer = document.getElementById('skillsContainer');
+    if (skillsContainer && portfolioData.skills) {
+        const skillCategories = [
+            { title: 'Languages', key: 'languages' },
+            { title: 'Frameworks', key: 'frameworks' },
+            { title: 'Architecture', key: 'architecture' },
+            { title: 'Tools', key: 'tools' },
+            { title: 'Libraries', key: 'libraries' },
+            { title: 'Testing', key: 'testing' }
+        ];
+        
+        skillsContainer.innerHTML = skillCategories.map(cat => `
+            <div class="skill-item">
+                <h4>${cat.title}</h4>
+                <p>${portfolioData.skills[cat.key].join(', ')}</p>
+            </div>
+        `).join('');
+    }
+    
+    // Populate education
+    const eduContainer = document.getElementById('educationContainer');
+    if (eduContainer && portfolioData.education) {
+        eduContainer.innerHTML = `
+            <div class="education-item">
+                <h4>${portfolioData.education.degree}</h4>
+                <p class="education-details">${portfolioData.education.institution} • ${portfolioData.education.period}</p>
+                <p>${portfolioData.education.additional}</p>
+            </div>
+        `;
+    }
+    
+    // Populate projects
+    const projectsContainer = document.getElementById('projectsContainer');
+    if (projectsContainer && portfolioData.projects) {
+        projectsContainer.innerHTML = portfolioData.projects.map(project => `
+            <div class="project-card">
+                <div class="project-icon">${project.icon}</div>
+                <h3>${project.name}</h3>
+                <p>${project.description}</p>
+                <div class="tech-stack">
+                    ${project.technologies.map(tech => `<span>${tech}</span>`).join('')}
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    // Populate contact
+    const contactContainer = document.getElementById('contactContainer');
+    if (contactContainer) {
+        contactContainer.innerHTML = `
+            <a href="mailto:${portfolioData.personalInfo.email}" class="contact-item">
+                <span class="contact-icon">📧</span>
+                <h3>Email</h3>
+                <p>${portfolioData.personalInfo.email}</p>
+            </a>
+            <a href="tel:${portfolioData.personalInfo.phone.replace(/\s/g, '')}" class="contact-item">
+                <span class="contact-icon">📱</span>
+                <h3>Phone</h3>
+                <p>${portfolioData.personalInfo.phone}</p>
+            </a>
+            <a href="${portfolioData.personalInfo.linkedin}" target="_blank" class="contact-item">
+                <span class="contact-icon">🔗</span>
+                <h3>LinkedIn</h3>
+                <p>${portfolioData.personalInfo.linkedin.split('/').pop()}</p>
+            </a>
+            <a href="${portfolioData.personalInfo.github}" target="_blank" class="contact-item">
+                <span class="contact-icon">💻</span>
+                <h3>GitHub</h3>
+                <p>${portfolioData.personalInfo.github.split('/').pop()}</p>
+            </a>
+        `;
+    }
+
         // Update other elements as needed
         // This can be extended to dynamically populate all sections
     }
@@ -118,7 +230,7 @@ function initializePortfolio() {
             setTimeout(() => {
                 terminalQuote.textContent = quotes[quoteIndex];
             }, 250);
-        }, 3000);
+        }, 1500);
     }
 
     /**

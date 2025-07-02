@@ -5,7 +5,7 @@
     "subtitle": "Innovative Android Developer with 2+ years of experience in creating user-centric mobile and Android TV applications. Proficient in Kotlin and Jetpack Compose, delivering high-quality solutions that elevate user engagement.",
     "email": "misbahul8@gmail.com",
     "phone": "+91-8376069521",
-    "linkedin": "https://linkedin.com/in/Misbah542",
+    "linkedin": "https://linkedin.com/in/misbahhaque",
     "github": "https://github.com/Misbah542",
     "resumePdfUrl": "/resume/Misbah_ul_Haque_Resume.pdf"
   },
@@ -29,7 +29,32 @@
     "Android: 14 API levels, 14 different behaviors",
     "ProGuard rules: The real final boss",
     "// Works on my device ¯\\_(ツ)_/¯",
-    "git push --force // YOLO"
+    "git push --force // YOLO",
+    "// TODO: Make the impossible possible with Kotlin",
+    "fun buildAmazingApps(): Android { return magic() }",
+    "while (true) { learn(); code(); innovate(); }",
+    "if (bug) { coffee++; debug(); } else { celebrate(); }",
+    "class Life : Android() { override fun onCreate() { code() } }",
+    "val success = dedication + coffee + Stack Overflow",
+    "catch (Exception e) { /* There are no bugs, only features */ }",
+    "@Composable fun MyLife() { LazyColumn { items(∞) { Code() } } }",
+    "// Warning: This developer runs on coffee and determination",
+    "git commit -m \"Fixed bug that wasn't supposed to exist\"",
+    "// Turning coffee into code since 2022",
+    "sudo make me an Android developer",
+    "404: Sleep not found. Continue coding? Y/n",
+    "// Debugging: Being the detective in a crime you committed",
+    "gradle.properties: android.enableJetifier=true // Magic happens",
+    "findViewById<TextView>(R.id.legacy) // Those were the days",
+    "viewBinding.enabled = true // Life got easier",
+    "coroutineScope.launch { changeTheWorld() }",
+    "// Android Studio: Where Ctrl+Z is your best friend",
+    "@Deprecated(\"XML layouts\") // Long live Compose!",
+    "when (mood) { HAPPY -> code() TIRED -> code() else -> coffee() }",
+    "// In Compose we trust, in XML we rust",
+    "LaunchedEffect(Unit) { while(true) { innovate() } }",
+    "// From Java to Kotlin: Evolution of happiness",
+    "buildFeatures { compose true } // Welcome to the future"
   ],
   "experience": [
     {
@@ -70,29 +95,19 @@
     "additional": "Minors in Computer Science"
   },
   "projects": [
-    {
-      "title": "JioCinema Player Skin",
-      "icon": "📺",
-      "description": "Complete Android TV player interface redesign with 40% faster rendering, custom controls, and seamless playback for millions of users.",
-      "techStack": ["Kotlin", "Android TV", "ExoPlayer", "Custom Views"]
-    },
-    {
-      "title": "QR Code Login System",
-      "icon": "🔐",
-      "description": "Secure authentication system allowing users to login via QR code scan, with custom OTP views and MVVM architecture.",
-      "techStack": ["MVVM", "Security", "Kotlin", "Custom Views"]
-    },
-    {
-      "title": "Tetris Game",
+   {
+      "id": "proj1",
+      "name": "Tetris Game",
       "icon": "🎮",
       "description": "Fully functional Tetris game using Jetpack Compose with real-time game mechanics, collision detection, and scoring system.",
-      "techStack": ["Compose", "Coroutines", "MVVM", "LiveData"]
+      "technologies": ["Compose", "Coroutines", "MVVM", "LiveData"]
     },
     {
-      "title": "Weather App",
+      "id": "proj2",
+      "name": "Weather App",
       "icon": "🌤️",
       "description": "Dynamic weather application with custom calculator, real-time data from OpenWeather API, and theme changes based on conditions.",
-      "techStack": ["Retrofit", "API", "Compose", "MVVM"]
+      "technologies": ["Retrofit", "API", "Compose", "MVVM"]
     }
   ]
 }

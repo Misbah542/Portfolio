@@ -25,6 +25,10 @@ let targetRotationY = 0;
 let zoom = 1;
 let targetZoom = 1;
 
+// Scroll-based animation variables
+let scrollProgress = 0;
+let scrollY = 0;
+
 // Animation clock
 const clock = new THREE.Clock();
 
@@ -241,7 +245,9 @@ function createAndroidBot() {
         color: androidGreen,
         emissive: androidGreen,
         emissiveIntensity: 0.1,
-        shininess: 100
+        shininess: 100,
+        transparent: true,
+        opacity: 1
     });
     
     // Head (hemisphere)
@@ -285,7 +291,9 @@ function createAndroidBot() {
     const eyeMaterial = new THREE.MeshPhongMaterial({ 
         color: 0xffffff,
         emissive: 0xffffff,
-        emissiveIntensity: 0.5
+        emissiveIntensity: 0.5,
+        transparent: true,
+        opacity: 1
     });
     
     const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
@@ -472,6 +480,12 @@ function setupThreeEventListeners() {
         isDragging = false;
     });
 
+    // Listen for scroll progress
+    window.addEventListener('scrollProgress', (e) => {
+        scrollProgress = e.detail.progress;
+        scrollY = e.detail.scrollY;
+    });
+
     // Mouse events
     document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('mousemove', handleMouseMove);
@@ -581,6 +595,14 @@ function animate() {
     
     const elapsedTime = clock.getElapsedTime();
     
+    // Scroll-based scene changes
+    const scrollEffect = 1 + scrollProgress * 2; // Speed multiplier based on scroll
+    const colorShift = scrollProgress; // Color shift based on scroll
+    
+    // Update fog based on scroll
+    scene.fog.near = 50 - scrollProgress * 30;
+    scene.fog.far = 300 - scrollProgress * 100;
+    
     // Smooth rotation transitions
     rotationX += (targetRotationX - rotationX) * 0.05;
     rotationY += (targetRotationY - rotationY) * 0.05;
@@ -590,76 +612,95 @@ function animate() {
         scene.rotation.x = rotationX;
         scene.rotation.y = rotationY;
     } else {
-        // Auto-rotation when not interactive
-        scene.rotation.y = elapsedTime * 0.05;
+        // Auto-rotation when not interactive (affected by scroll)
+        scene.rotation.y = elapsedTime * 0.05 * scrollEffect;
+        scene.rotation.x = Math.sin(elapsedTime * 0.1) * 0.1 * scrollEffect;
         targetRotationY = scene.rotation.y;
-        targetRotationX = 0;
+        targetRotationX = scene.rotation.x;
     }
     
     // Smooth zoom transitions
     zoom += (targetZoom - zoom) * 0.05;
-    camera.position.z = 30 / zoom;
+    camera.position.z = (30 / zoom) + scrollProgress * 20;
     
-    // Animate Android bots
+    // Animate Android bots with scroll effects
     bots.forEach((bot, index) => {
-        // Floating motion with varied amplitude
-        bot.mesh.position.y = bot.initialY + Math.sin(elapsedTime * bot.floatSpeed + index) * bot.verticalFloat;
+        // Floating motion with varied amplitude (affected by scroll)
+        bot.mesh.position.y = bot.initialY + Math.sin(elapsedTime * bot.floatSpeed * scrollEffect + index) * bot.verticalFloat * (1 + scrollProgress);
         
-        // Self rotation
-        bot.mesh.rotation.y += bot.rotationSpeed * 0.01;
+        // Self rotation (faster with scroll)
+        bot.mesh.rotation.y += bot.rotationSpeed * 0.01 * scrollEffect;
         
-        // Orbital motion
-        bot.orbitAngle += bot.orbitSpeed * 0.01;
-        bot.mesh.position.x = Math.cos(bot.orbitAngle) * bot.orbitRadius;
-        bot.mesh.position.z = Math.sin(bot.orbitAngle) * bot.orbitRadius;
+        // Orbital motion (faster with scroll)
+        bot.orbitAngle += bot.orbitSpeed * 0.01 * scrollEffect;
+        bot.mesh.position.x = Math.cos(bot.orbitAngle) * bot.orbitRadius * (1 + scrollProgress * 0.5);
+        bot.mesh.position.z = Math.sin(bot.orbitAngle) * bot.orbitRadius * (1 + scrollProgress * 0.5);
         
         // Tilt based on movement
-        bot.mesh.rotation.z = Math.sin(elapsedTime * 0.5 + index) * 0.1;
-        bot.mesh.rotation.x = Math.cos(elapsedTime * 0.3 + index) * 0.05;
+        bot.mesh.rotation.z = Math.sin(elapsedTime * 0.5 + index) * 0.1 * scrollEffect;
+        bot.mesh.rotation.x = Math.cos(elapsedTime * 0.3 + index) * 0.05 * scrollEffect;
+        
+        // Change bot opacity based on scroll
+        bot.mesh.traverse((child) => {
+            if (child.isMesh) {
+                child.material.opacity = 1 - scrollProgress * 0.3;
+            }
+        });
     });
     
-    // Animate geometric shapes
+    // Animate geometric shapes with scroll effects
     shapes.forEach((shape, index) => {
-        shape.mesh.rotation.x += shape.rotationSpeed.x;
-        shape.mesh.rotation.y += shape.rotationSpeed.y;
-        shape.mesh.rotation.z += shape.rotationSpeed.z;
+        shape.mesh.rotation.x += shape.rotationSpeed.x * scrollEffect;
+        shape.mesh.rotation.y += shape.rotationSpeed.y * scrollEffect;
+        shape.mesh.rotation.z += shape.rotationSpeed.z * scrollEffect;
         
         // Floating motion
-        shape.mesh.position.y += Math.sin(elapsedTime * shape.floatSpeed + index) * 0.03;
+        shape.mesh.position.y += Math.sin(elapsedTime * shape.floatSpeed * scrollEffect + index) * 0.03;
+        
+        // Change opacity based on scroll
+        shape.mesh.material.opacity = 0.3 + scrollProgress * 0.3;
     });
     
-    // Animate particles with more complex movement
+    // Animate particles with more complex movement (affected by scroll)
     if (particles) {
-        particles.rotation.y = elapsedTime * 0.02;
-        particles.rotation.x = Math.sin(elapsedTime * 0.1) * 0.2;
+        particles.rotation.y = elapsedTime * 0.02 * scrollEffect;
+        particles.rotation.x = Math.sin(elapsedTime * 0.1) * 0.2 * scrollEffect;
         
-        // Make particles pulse
+        // Make particles pulse and spread out with scroll
         const positions = particles.geometry.attributes.position.array;
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i + 1] += Math.sin(elapsedTime + i) * 0.02;
+            positions[i + 1] += Math.sin(elapsedTime + i) * 0.02 * scrollEffect;
+            // Spread particles out as user scrolls
+            const originalX = (i / 3 - 250) * 0.6;
+            const originalZ = ((i + 2) / 3 - 250) * 0.6;
+            positions[i] = originalX * (1 + scrollProgress * 2);
+            positions[i + 2] = originalZ * (1 + scrollProgress * 2);
         }
         particles.geometry.attributes.position.needsUpdate = true;
+        
+        // Change particle opacity
+        particles.material.opacity = 0.7 - scrollProgress * 0.4;
     }
     
-    // Animate Android icons
+    // Animate Android icons with scroll effects
     androidIcons.forEach((icon, index) => {
-        icon.mesh.rotation.x += icon.rotationSpeed.x;
-        icon.mesh.rotation.y += icon.rotationSpeed.y;
-        icon.mesh.rotation.z += icon.rotationSpeed.z;
+        icon.mesh.rotation.x += icon.rotationSpeed.x * scrollEffect;
+        icon.mesh.rotation.y += icon.rotationSpeed.y * scrollEffect;
+        icon.mesh.rotation.z += icon.rotationSpeed.z * scrollEffect;
         
-        // Orbital motion
-        const angle = elapsedTime * icon.orbitSpeed + index;
-        icon.mesh.position.x = Math.cos(angle) * icon.orbitRadius;
-        icon.mesh.position.z = Math.sin(angle) * icon.orbitRadius;
-        icon.mesh.position.y += Math.sin(elapsedTime * icon.floatSpeed) * 0.05;
+        // Orbital motion (expand with scroll)
+        const angle = elapsedTime * icon.orbitSpeed * scrollEffect + index;
+        icon.mesh.position.x = Math.cos(angle) * icon.orbitRadius * (1 + scrollProgress);
+        icon.mesh.position.z = Math.sin(angle) * icon.orbitRadius * (1 + scrollProgress);
+        icon.mesh.position.y += Math.sin(elapsedTime * icon.floatSpeed) * 0.05 * scrollEffect;
     });
     
-    // Animate code blocks
+    // Animate code blocks with scroll effects
     codeBlocks.forEach((block, index) => {
-        block.mesh.rotation.y += block.rotationSpeed;
-        block.mesh.position.x += block.driftSpeed.x;
-        block.mesh.position.y += block.driftSpeed.y;
-        block.mesh.position.z += block.driftSpeed.z;
+        block.mesh.rotation.y += block.rotationSpeed * scrollEffect;
+        block.mesh.position.x += block.driftSpeed.x * scrollEffect;
+        block.mesh.position.y += block.driftSpeed.y * scrollEffect;
+        block.mesh.position.z += block.driftSpeed.z * scrollEffect;
         
         // Wrap around when too far
         ['x', 'y', 'z'].forEach(axis => {
@@ -668,24 +709,31 @@ function animate() {
             }
         });
         
-        // Pulsing opacity
-        block.mesh.material.opacity = 0.2 + Math.sin(elapsedTime * 2 + index) * 0.1;
+        // Pulsing opacity (faster with scroll)
+        block.mesh.material.opacity = 0.2 + Math.sin(elapsedTime * 2 * scrollEffect + index) * 0.1;
     });
     
-    // Animate lights with more variation
-    pointLight1.position.x = Math.sin(elapsedTime * 0.5) * 30;
-    pointLight1.position.z = Math.cos(elapsedTime * 0.5) * 30;
-    pointLight1.position.y = Math.sin(elapsedTime * 0.3) * 15;
-    pointLight1.intensity = 1 + Math.sin(elapsedTime * 2) * 0.2;
+    // Animate lights with more variation (affected by scroll)
+    const lightRadius = 30 + scrollProgress * 20;
+    pointLight1.position.x = Math.sin(elapsedTime * 0.5 * scrollEffect) * lightRadius;
+    pointLight1.position.z = Math.cos(elapsedTime * 0.5 * scrollEffect) * lightRadius;
+    pointLight1.position.y = Math.sin(elapsedTime * 0.3 * scrollEffect) * 15;
+    pointLight1.intensity = (1 + Math.sin(elapsedTime * 2 * scrollEffect) * 0.2) * (1 - scrollProgress * 0.3);
     
-    pointLight2.position.x = Math.cos(elapsedTime * 0.3) * 30;
-    pointLight2.position.z = Math.sin(elapsedTime * 0.3) * 30;
-    pointLight2.position.y = Math.cos(elapsedTime * 0.5) * 15;
-    pointLight2.intensity = 0.8 + Math.cos(elapsedTime * 1.5) * 0.2;
+    pointLight2.position.x = Math.cos(elapsedTime * 0.3 * scrollEffect) * lightRadius;
+    pointLight2.position.z = Math.sin(elapsedTime * 0.3 * scrollEffect) * lightRadius;
+    pointLight2.position.y = Math.cos(elapsedTime * 0.5 * scrollEffect) * 15;
+    pointLight2.intensity = (0.8 + Math.cos(elapsedTime * 1.5 * scrollEffect) * 0.2) * (1 - scrollProgress * 0.3);
     
-    pointLight3.position.x = Math.sin(elapsedTime * 0.7) * 20;
-    pointLight3.position.y = 30 + Math.sin(elapsedTime) * 10;
-    pointLight3.position.z = Math.cos(elapsedTime * 0.7) * 20;
+    pointLight3.position.x = Math.sin(elapsedTime * 0.7 * scrollEffect) * (20 + scrollProgress * 10);
+    pointLight3.position.y = 30 + Math.sin(elapsedTime * scrollEffect) * 10;
+    pointLight3.position.z = Math.cos(elapsedTime * 0.7 * scrollEffect) * (20 + scrollProgress * 10);
+    
+    // Change light colors based on scroll
+    const greenIntensity = 1 - scrollProgress * 0.5;
+    const blueIntensity = scrollProgress * 0.5;
+    pointLight1.color.setRGB(greenIntensity * 0.3, greenIntensity * 0.7, 0.3 + blueIntensity);
+    pointLight2.color.setRGB(greenIntensity * 0.5, greenIntensity * 0.8, 0.3 + blueIntensity);
     
     // Render the scene
     renderer.render(scene, camera);

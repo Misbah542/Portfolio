@@ -1,15 +1,38 @@
 /**
  * Main JavaScript for Android Developer Portfolio
- * Handles navigation, scrolling, animations, and PDF generation
+ * Handles navigation, scrolling, animations, and PDF download
  * Author: Misbah ul Haque
  * 
  * Note: The portfolio starts with normal scrolling behavior.
  * 3D interaction is only activated when clicking the 3D button.
  */
 
+// Portfolio data
+let portfolioData = null;
+
+// Ensure page starts at top
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+
 // Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Scroll to top on load
+    window.scrollTo(0, 0);
     
+    // Load portfolio data
+    try {
+        const response = await fetch('portfolio-data.json');
+        portfolioData = await response.json();
+        initializePortfolio();
+    } catch (error) {
+        console.error('Error loading portfolio data:', error);
+        // Initialize with default data if JSON fails to load
+        initializePortfolio();
+    }
+});
+
+function initializePortfolio() {
     // DOM Elements
     const navbar = document.getElementById('navbar');
     const navItems = document.querySelectorAll('nav ul li');
@@ -18,10 +41,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadBtn = document.getElementById('downloadResume');
     const sceneControl = document.getElementById('sceneControl');
     const canvas = document.getElementById('canvas');
+    const terminalQuote = document.getElementById('terminalQuote');
 
     // State variables
     let isSceneInteractive = false;
     let lastScrollY = window.scrollY;
+    let quoteIndex = 0;
+    let quoteInterval = null;
 
     /**
      * Initialize the portfolio
@@ -33,10 +59,86 @@ document.addEventListener('DOMContentLoaded', function() {
             // Trigger initial animations
             updateActiveNav();
             observeSections();
+            startQuoteRotation();
+            updateSceneControlState();
         }, 1500);
 
         // Set up event listeners
         setupEventListeners();
+
+        // Populate data if available
+        if (portfolioData) {
+            populateData();
+        }
+    }
+
+    /**
+     * Populate portfolio with data from JSON
+     */
+    function populateData() {
+        // Update personal information
+        const nameElements = document.querySelectorAll('h1.glitch-text, h1.terminal-name');
+        nameElements.forEach(el => {
+            if (portfolioData.personalInfo.name) {
+                el.textContent = portfolioData.personalInfo.name;
+            }
+        });
+
+        // Update other elements as needed
+        // This can be extended to dynamically populate all sections
+    }
+
+    /**
+     * Start terminal quote rotation
+     */
+    function startQuoteRotation() {
+        if (!terminalQuote) return;
+
+        // Default quotes if JSON fails to load
+        const defaultQuotes = [
+            "// TODO: Fix this bug... eventually 😅",
+            "if (coffee.isEmpty()) { developer.crash() }",
+            "// This code works, don't touch it!",
+            "Android Studio: \"Indexing...\" Me: \"Still?!\"",
+            "Jetpack Compose > XML (fight me)"
+        ];
+
+        const quotes = (portfolioData && portfolioData.terminalQuotes) ? portfolioData.terminalQuotes : defaultQuotes;
+        
+        // Set initial quote
+        terminalQuote.textContent = quotes[0];
+
+        // Rotate quotes every 3 seconds
+        quoteInterval = setInterval(() => {
+            quoteIndex = (quoteIndex + 1) % quotes.length;
+            
+            // Fade out
+            terminalQuote.style.animation = 'fadeInOut 0.5s ease-in-out';
+            
+            setTimeout(() => {
+                terminalQuote.textContent = quotes[quoteIndex];
+            }, 250);
+        }, 3000);
+    }
+
+    /**
+     * Update 3D scene control state based on scroll position
+     */
+    function updateSceneControlState() {
+        const terminalSection = document.getElementById('terminal');
+        const scrollY = window.scrollY;
+        const terminalHeight = terminalSection ? terminalSection.offsetHeight : 0;
+
+        // Enable button only when on terminal page
+        if (scrollY < terminalHeight - 100) {
+            sceneControl.classList.remove('disabled');
+        } else {
+            sceneControl.classList.add('disabled');
+            // Disable interaction if scrolled away
+            if (isSceneInteractive) {
+                toggleSceneInteraction();
+            }
+        }
     }
 
     /**
@@ -52,13 +154,31 @@ document.addEventListener('DOMContentLoaded', function() {
         window.addEventListener('scroll', handleScroll);
 
         // Download resume button
-        downloadBtn.addEventListener('click', generatePDF);
+        downloadBtn.addEventListener('click', downloadPDF);
 
         // Scene control button
-        sceneControl.addEventListener('click', toggleSceneInteraction);
+        sceneControl.addEventListener('click', (e) => {
+            if (!sceneControl.classList.contains('disabled')) {
+                toggleSceneInteraction();
+            } else {
+                e.preventDefault();
+            }
+        });
 
         // Window resize
         window.addEventListener('resize', handleResize);
+
+        // Terminal enter link
+        const terminalLink = document.querySelector('.terminal-link');
+        if (terminalLink) {
+            terminalLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                const homeSection = document.getElementById('home');
+                if (homeSection) {
+                    homeSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
 
         // Prevent default touch behavior on canvas when interactive
         canvas.addEventListener('touchstart', (e) => {
@@ -99,6 +219,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update active navigation item
         updateActiveNav();
+
+        // Update 3D control state
+        updateSceneControlState();
+
+        // Send scroll progress to 3D scene
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollProgress = scrollY / maxScroll;
+        window.dispatchEvent(new CustomEvent('scrollProgress', { detail: { progress: scrollProgress, scrollY: scrollY } }));
 
         lastScrollY = scrollY;
     }
@@ -171,119 +299,44 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /**
-     * Generate PDF of resume
+     * Download preset PDF resume
      */
-    async function generatePDF() {
+    async function downloadPDF() {
         try {
             // Show loading state
             downloadBtn.disabled = true;
-            downloadBtn.innerHTML = '<span>Generating...</span>';
+            downloadBtn.innerHTML = '<span>Downloading...</span>';
 
-            // Get resume content
-            const resumeSection = document.getElementById('resume');
-            const homeSection = document.getElementById('home');
+            // Get PDF URL from portfolio data or use default
+            const pdfUrl = portfolioData?.personalInfo?.resumePdfUrl || '/resume/Misbah_ul_Haque_Resume.pdf';
+
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = pdfUrl;
+            link.download = 'Misbah_ul_Haque_Resume.pdf';
+            link.style.display = 'none';
             
-            // Create a temporary container for PDF content
-            const pdfContainer = document.createElement('div');
-            pdfContainer.style.position = 'absolute';
-            pdfContainer.style.left = '-9999px';
-            pdfContainer.style.width = '210mm'; // A4 width
-            pdfContainer.style.padding = '20mm';
-            pdfContainer.style.background = 'white';
-            pdfContainer.style.color = 'black';
-            document.body.appendChild(pdfContainer);
+            // Add to document, click, and remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
 
-            // Add content to PDF container
-            pdfContainer.innerHTML = `
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h1 style="color: #4CAF50; font-size: 36px; margin-bottom: 10px;">Misbah ul Haque</h1>
-                    <p style="font-size: 20px; color: #666; margin-bottom: 20px;">Experienced Android Developer</p>
-                    <p style="color: #333; margin-bottom: 5px;">📧 misbahul8@gmail.com | 📱 +91-8376069521</p>
-                    <p style="color: #333;">🔗 linkedin.com/in/Misbah542 | 💻 github.com/Misbah542</p>
-                </div>
-                <hr style="border: 1px solid #ddd; margin: 30px 0;">
-                ${document.getElementById('resumeContent').innerHTML}
-            `;
-
-            // Style the content for PDF
-            const styles = pdfContainer.querySelectorAll('*');
-            styles.forEach(el => {
-                if (el.tagName === 'H2') {
-                    el.style.color = '#4CAF50';
-                    el.style.fontSize = '24px';
-                    el.style.marginTop = '30px';
-                }
-                if (el.tagName === 'H3') {
-                    el.style.color = '#333';
-                    el.style.fontSize = '20px';
-                    el.style.marginTop = '20px';
-                }
-                if (el.tagName === 'H4') {
-                    el.style.color = '#555';
-                    el.style.fontSize = '18px';
-                }
-                if (el.classList.contains('skill-grid')) {
-                    el.style.display = 'grid';
-                    el.style.gridTemplateColumns = 'repeat(3, 1fr)';
-                    el.style.gap = '15px';
-                }
-                if (el.classList.contains('skill-item')) {
-                    el.style.background = '#f5f5f5';
-                    el.style.padding = '15px';
-                    el.style.borderRadius = '8px';
-                    el.style.border = 'none';
-                }
-            });
-
-            // Use html2canvas to capture the content
-            const canvas = await html2canvas(pdfContainer, {
-                scale: 2,
-                useCORS: true,
-                logging: false
-            });
-
-            // Create PDF using jsPDF
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            
-            const imgData = canvas.toDataURL('image/png');
-            const imgWidth = 210; // A4 width in mm
-            const pageHeight = 297; // A4 height in mm
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            let heightLeft = imgHeight;
-            let position = 0;
-
-            // Add image to PDF, handling multiple pages if needed
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-
-            while (heightLeft >= 0) {
-                position = heightLeft - imgHeight;
-                pdf.addPage();
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
-            }
-
-            // Save the PDF
-            pdf.save('Misbah_ul_Haque_Resume.pdf');
-
-            // Clean up
-            document.body.removeChild(pdfContainer);
-
-            // Reset button state
-            downloadBtn.disabled = false;
-            downloadBtn.innerHTML = `
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>Resume</span>
-            `;
+            // Reset button state after a short delay
+            setTimeout(() => {
+                downloadBtn.disabled = false;
+                downloadBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Resume</span>
+                `;
+            }, 1000);
 
         } catch (error) {
-            console.error('Error generating PDF:', error);
-            alert('Sorry, there was an error generating the PDF. Please try again.');
+            console.error('Error downloading PDF:', error);
+            alert('Resume download is currently unavailable. Please try again later.');
             
             // Reset button state
             downloadBtn.disabled = false;
@@ -304,6 +357,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleResize() {
         // Update any responsive elements if needed
         updateActiveNav();
+        updateSceneControlState();
     }
 
     /**
@@ -321,6 +375,13 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
+    // Cleanup on page unload
+    window.addEventListener('beforeunload', () => {
+        if (quoteInterval) {
+            clearInterval(quoteInterval);
+        }
+    });
+
     // Initialize the portfolio when DOM is ready
     init();
-});
+}

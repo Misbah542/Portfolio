@@ -4,537 +4,6 @@
    Version: 1.0
    =================================== */
 
-/* Terminal Section Styles */
-.terminal-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  position: relative;
-  z-index: 1;
-  padding: 40px;
-}
-
-.terminal-container {
-  max-width: 800px;
-  width: 100%;
-  animation: terminalFadeIn 0.5s ease-out;
-  background: rgba(10, 10, 10, 0.85);
-  border-radius: 15px;
-  border: 1px solid rgba(76, 175, 80, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-@keyframes terminalFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.terminal-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(76, 175, 80, 0.2);
-}
-
-.terminal-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-}
-
-.terminal-dot.red {
-  background: #ff5f56;
-}
-
-.terminal-dot.yellow {
-  background: #ffbd2e;
-}
-
-.terminal-dot.green {
-  background: #27c93f;
-}
-
-.terminal-title {
-  margin-left: auto;
-  color: rgba(255, 255, 255, 0.5);
-  font-family: "Monaco", "Consolas", monospace;
-  font-size: 12px;
-}
-
-.terminal-content {
-  padding: 30px;
-  font-family: "Monaco", "Consolas", monospace;
-  min-height: 400px;
-}
-
-.terminal-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  color: #4caf50;
-}
-
-.prompt {
-  color: #4caf50;
-  font-weight: bold;
-}
-
-.command {
-  color: rgba(255, 255, 255, 0.9);
-  animation: typing 1s steps(20, end);
-}
-
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
-  }
-}
-
-.terminal-output {
-  margin: 20px 0 40px 0;
-  padding-left: 20px;
-}
-
-.terminal-name {
-  font-size: 42px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #4caf50, #8bc34a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.terminal-role {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 18px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.terminal-quote {
-  color: #8bc34a;
-  font-style: italic;
-  margin-left: 20px;
-  margin-bottom: 30px;
-  min-height: 30px;
-  animation: fadeInOut 0.5s ease-in-out;
-}
-
-@keyframes fadeInOut {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
-  }
-}
-
-.terminal-line.typing {
-  opacity: 0.7;
-}
-
-.cursor {
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0%,
-  50% {
-    opacity: 1;
-  }
-  51%,
-  100% {
-    opacity: 0;
-  }
-}
-
-.terminal-nav {
-  text-align: center;
-  margin-top: 40px;
-  margin-bottom: 20px;
-}
-
-.terminal-link {
-  display: inline-block;
-  padding: 12px 40px;
-  border: 2px solid #4caf50;
-  color: #4caf50;
-  text-decoration: none;
-  font-family: "Monaco", "Consolas", monospace;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.project-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(76, 175, 80, 0.1) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.project-card:hover::before {
-  opacity: 1;
-}
-
-.project-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(76, 175, 80, 0.3);
-  box-shadow: 0 20px 40px rgba(76, 175, 80, 0.2);
-}
-
-.project-icon {
-  font-size: 48px;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.project-card h3 {
-  color: #8bc34a;
-  margin-bottom: 15px;
-  font-size: 20px;
-}
-
-.project-card p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 15px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.tech-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.tech-stack span {
-  font-size: 12px;
-  padding: 4px 12px;
-  background: rgba(76, 175, 80, 0.1);
-  border: 1px solid rgba(76, 175, 80, 0.3);
-  border-radius: 15px;
-  color: #8bc34a;
-}
-
-/* Contact Section */
-.contact-intro {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 25px;
-  margin-top: 30px;
-}
-
-.contact-item {
-  text-align: center;
-  padding: 30px;
-  background: rgba(20, 20, 20, 0.4);
-  border-radius: 20px;
-  border: 1px solid rgba(76, 175, 80, 0.15);
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.contact-item:hover {
-  transform: translateY(-5px);
-  background: rgba(76, 175, 80, 0.08);
-  border-color: rgba(76, 175, 80, 0.3);
-  box-shadow: 0 15px 35px rgba(76, 175, 80, 0.2);
-}
-
-.contact-icon {
-  font-size: 42px;
-  margin-bottom: 15px;
-  display: block;
-}
-
-.contact-item h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.contact-item p {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-}
-
-/* Lists */
-ul {
-  margin-left: 25px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-ul li {
-  margin-bottom: 10px;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  nav {
-    width: 95%;
-    padding: 0;
-  }
-
-  nav ul {
-    padding: 8px 5px;
-  }
-
-  nav ul li {
-    font-size: 12px;
-    padding: 8px 16px;
-    margin: 0 2px;
-  }
-
-  .download-btn {
-    font-size: 12px;
-    padding: 8px 16px;
-  }
-
-  .download-btn span {
-    display: none;
-  }
-
-  .scene-control {
-    width: 60px;
-    height: 60px;
-    bottom: 20px;
-    right: 20px;
-  }
-
-  .scene-control svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .landing-section,
-  .terminal-section {
-    padding: 20px;
-  }
-
-  .terminal-container {
-    max-width: 100%;
-  }
-
-  .terminal-content {
-    padding: 20px;
-    font-size: 14px;
-  }
-
-  .terminal-name {
-    font-size: 32px;
-  }
-
-  .terminal-role {
-    font-size: 16px;
-  }
-
-  .terminal-quote {
-    font-size: 14px;
-    margin-left: 10px;
-  }
-
-  .terminal-link {
-    padding: 10px 30px;
-    font-size: 14px;
-  }
-
-  .android-logo-main {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 30px;
-  }
-
-  .glitch-text {
-    font-size: 42px;
-  }
-
-  .typed-text {
-    font-size: 22px;
-  }
-
-  .intro-subtitle {
-    font-size: 16px;
-  }
-
-  .social-link {
-    padding: 10px 20px;
-    font-size: 14px;
-  }
-
-  .section {
-    padding: 80px 20px;
-  }
-
-  .content {
-    padding: 40px 30px;
-  }
-
-  h1 {
-    font-size: 36px;
-  }
-
-  h2 {
-    font-size: 28px;
-  }
-
-  .intro-text {
-    font-size: 20px;
-  }
-
-  .bio {
-    font-size: 16px;
-  }
-
-  .project-grid,
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .skill-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
-  nav ul li {
-    font-size: 11px;
-    padding: 6px 12px;
-  }
-
-  .terminal-container {
-    padding: 0;
-  }
-
-  .terminal-header {
-    padding: 8px 12px;
-  }
-
-  .terminal-content {
-    padding: 15px;
-    min-height: 300px;
-  }
-
-  .terminal-name {
-    font-size: 28px;
-  }
-
-  .terminal-quote {
-    font-size: 13px;
-  }
-
-  .control-hint {
-    right: auto;
-    left: -120px;
-  }
-}
-
-/* Print Styles for PDF Generation */
-@media print {
-  body {
-    background: white;
-    color: black;
-  }
-
-  .loader,
-  nav,
-  .scene-control,
-  #canvas {
-    display: none !important;
-  }
-
-  .section {
-    min-height: auto;
-    page-break-inside: avoid;
-    padding: 20px;
-  }
-
-  .content {
-    background: white;
-    box-shadow: none;
-    border: 1px solid #ddd;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    color: #333;
-    -webkit-text-fill-color: #333;
-  }
-
-  .android-logo {
-    filter: none;
-    animation: none;
-  }
-}
-
-.terminal-link::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: #4caf50;
-  transition: left 0.3s ease;
-  z-index: -1;
-}
-
-.terminal-link:hover::before {
-  left: 0;
-}
-
-.terminal-link:hover {
-  color: #0a0a0a;
-  box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
-}
-
-.terminal-scroll {
-  color: rgba(255, 255, 255, 0.3);
-}
-
 /* Reset and Base Styles */
 * {
   margin: 0;
@@ -882,12 +351,379 @@ nav ul li:hover:not(.active) {
   transform: translateY(-5px) translateX(0);
 }
 
-/* Ensure hint stays within viewport */
-@media (max-width: 480px) {
-  .control-hint {
-    right: auto;
-    left: -120px;
+/* Terminal Section Styles */
+.terminal-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  position: relative;
+  z-index: 1;
+  padding: 40px;
+}
+
+.terminal-container {
+  max-width: 800px;
+  width: 100%;
+  animation: terminalFadeIn 0.5s ease-out;
+  background: rgba(10, 10, 10, 0.85);
+  border-radius: 15px;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes terminalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red {
+  background: #ff5f56;
+}
+
+.terminal-dot.yellow {
+  background: #ffbd2e;
+}
+
+.terminal-dot.green {
+  background: #27c93f;
+}
+
+.terminal-title {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 12px;
+}
+
+.terminal-content {
+  padding: 30px;
+  font-family: "Monaco", "Consolas", monospace;
+  min-height: 400px;
+}
+
+.terminal-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #4caf50;
+}
+
+.prompt {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.command {
+  color: rgba(255, 255, 255, 0.9);
+  animation: typing 1s steps(20, end);
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.terminal-output {
+  margin: 20px 0 40px 0;
+  padding-left: 20px;
+}
+
+.terminal-name {
+  font-size: 42px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.terminal-role {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.terminal-quote {
+  color: #8bc34a;
+  font-style: italic;
+  margin-left: 20px;
+  margin-bottom: 30px;
+  min-height: 30px;
+  animation: fadeInOut 0.5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.terminal-line.typing {
+  opacity: 0.7;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.terminal-nav {
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.terminal-link {
+  display: inline-block;
+  padding: 12px 40px;
+  border: 2px solid #4caf50;
+  color: #4caf50;
+  text-decoration: none;
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.terminal-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #4caf50;
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.terminal-link:hover::before {
+  left: 0;
+}
+
+.terminal-link:hover {
+  color: #0a0a0a;
+  box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+}
+
+/* Terminal Game Styles */
+.play-game-btn {
+  display: inline-block;
+  padding: 12px 40px;
+  border: 2px solid #ff6b6b;
+  background: transparent;
+  color: #ff6b6b;
+  text-decoration: none;
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  animation: pulseRed 2s ease-in-out infinite;
+}
+
+@keyframes pulseRed {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(255, 107, 107, 0.3);
+  }
+}
+
+.play-game-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: #ff6b6b;
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.play-game-btn:hover::before {
+  left: 0;
+}
+
+.play-game-btn:hover {
+  color: #0a0a0a;
+  box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+}
+
+.terminal-game {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(10, 10, 10, 0.98);
+  border: 2px solid #4caf50;
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 100;
+  box-shadow: 0 0 50px rgba(76, 175, 80, 0.5);
+}
+
+.terminal-game.active {
+  display: block;
+}
+
+#gameCanvas {
+  border: 1px solid #4caf50;
+  background: #0a0a0a;
+  display: block;
+  margin: 0 auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  max-width: 800px;
+  max-height: 400px;
+}
+
+.game-ui {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-family: "Monaco", "Consolas", monospace;
+  color: #4caf50;
+  font-size: 14px;
+}
+
+.game-over {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(10, 10, 10, 0.95);
+  border: 2px solid #ff6b6b;
+  border-radius: 10px;
+  padding: 30px;
+  text-align: center;
+  color: #ff6b6b;
+  font-family: "Monaco", "Consolas", monospace;
+}
+
+.game-over.active {
+  display: block;
+}
+
+.game-over h3 {
+  color: #ff6b6b;
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.game-over p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.retry-btn {
+  padding: 10px 30px;
+  background: transparent;
+  border: 2px solid #4caf50;
+  color: #4caf50;
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.retry-btn:hover {
+  background: #4caf50;
+  color: #0a0a0a;
+}
+
+.game-instructions {
+  text-align: center;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.mobile-controls {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-controls {
+    display: none;
+  }
+  .mobile-controls {
+    display: block;
+  }
+}
+
+/* Hide terminal content when game is active */
+.terminal-section.game-active .terminal-content,
+.terminal-section.game-active .terminal-nav,
+.terminal-section.game-active .terminal-scroll {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.terminal-scroll {
+  color: rgba(255, 255, 255, 0.3);
 }
 
 /* Landing Section - same background style */
@@ -1168,33 +1004,6 @@ h4 {
   margin-bottom: 30px;
 }
 
-/* Social Links */
-.social-links {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.social-links a {
-  display: inline-block;
-  padding: 10px 25px;
-  background: rgba(76, 175, 80, 0.1);
-  border: 1px solid rgba(76, 175, 80, 0.3);
-  border-radius: 25px;
-  color: #4caf50;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.social-links a:hover {
-  background: #4caf50;
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(76, 175, 80, 0.3);
-}
-
 /* Experience Items */
 .experience-item {
   margin-bottom: 30px;
@@ -1443,8 +1252,36 @@ ul li {
     height: 28px;
   }
 
-  .landing-section {
+  .landing-section,
+  .terminal-section {
     padding: 20px;
+  }
+
+  .terminal-container {
+    max-width: 100%;
+  }
+
+  .terminal-content {
+    padding: 20px;
+    font-size: 14px;
+  }
+
+  .terminal-name {
+    font-size: 32px;
+  }
+
+  .terminal-role {
+    font-size: 16px;
+  }
+
+  .terminal-quote {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+
+  .terminal-link {
+    padding: 10px 30px;
+    font-size: 14px;
   }
 
   .android-logo-main {
@@ -1501,6 +1338,56 @@ ul li {
 
   .skill-grid {
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  nav ul li {
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+
+  .terminal-container {
+    padding: 0;
+  }
+
+  .terminal-header {
+    padding: 8px 12px;
+  }
+
+  .terminal-content {
+    padding: 15px;
+    min-height: 300px;
+  }
+
+  .terminal-name {
+    font-size: 28px;
+  }
+
+  .terminal-quote {
+    font-size: 13px;
+  }
+
+  .control-hint {
+    right: auto;
+    left: -120px;
+  }
+
+  .play-game-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+
+  .terminal-game {
+    width: 90%;
+    max-width: 400px;
+  }
+
+  #gameCanvas {
+    width: 100%;
+    height: auto;
   }
 }
 
